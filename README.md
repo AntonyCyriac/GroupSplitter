@@ -51,7 +51,26 @@ Try [`sample_data/families_sample.csv`](sample_data/families_sample.csv) with **
 
 ```powershell
 python -m unittest discover -s tests -v
+python tests/smoke_test.py
 ```
+
+## CI/CD and releases
+
+GitHub Actions runs on this repository:
+
+| Workflow | When | What it does |
+|----------|------|----------------|
+| **CI** (`.github/workflows/ci.yml`) | Push or pull request to `master` / `main` | Unit tests and smoke test on Windows and Ubuntu, then builds `GroupSplitter.exe` and uploads it as a workflow artifact |
+| **Release** (`.github/workflows/release.yml`) | Push of a tag matching `v*` (for example `v1.0.0`) | Re-runs tests, builds the Windows exe, and publishes it on a GitHub Release |
+
+Create a versioned release:
+
+```powershell
+git tag v1.0.0
+git push origin v1.0.0
+```
+
+The release includes `GroupSplitter.exe` and `GroupSplitter-v1.0.0-windows.exe`. You can also run **Release** from the Actions tab to test the Windows build without publishing; that run uploads the exe as a workflow artifact only.
 
 ## Author
 
